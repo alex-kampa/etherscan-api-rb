@@ -23,8 +23,8 @@ def output_pp(x, f)
   STDOUT.reopen(stdout_original)
 end
 
-def write_to_file(x, target_file)
-  File.open(target_file, 'w') { |f| f.write x }
+def write_to_file(x, target_file, mode='w')
+  File.open(target_file, mode) { |f| f.write x }
 end
 
 ## logging

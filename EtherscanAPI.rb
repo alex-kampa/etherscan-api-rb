@@ -1,10 +1,18 @@
 class EtherscanAPI
 
+	attr_accessor :print_query
+
 	@@apiAddress = 'https://api.etherscan.io/api'
 
-	def initialize(token, sl)
-	  @apiKeyToken = token
+	def initialize(api_key, sl, print_query=false)
+	  @apiKeyToken = api_key
 	  @sl = sl
+	  @print_query = print_query
+	  @print_next_query = false
+	end
+	
+	def print_next_query
+		@print_next_query = true
 	end
 
 =begin
@@ -58,7 +66,8 @@ Stats - https://etherscan.io/apis#stats
 	
 		query = generate_query(h)
 		
-		@sl.h2 query
+		@sl.p "query: " + query if @print_query or @print_next_query
+		@print_next_query = false
 		
 		res_raw = RestClient.get(query, {}).body
 		res = JSON.parse(res_raw, symbolize_names: true)

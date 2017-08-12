@@ -1,2 +1,4 @@
 cmd.bat
+api.key
 test-etherscan-api.rb
+sLog.log
