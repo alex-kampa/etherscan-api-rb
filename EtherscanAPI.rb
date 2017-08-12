@@ -4,10 +4,10 @@ class EtherscanAPI
 
 	@@apiAddress = 'https://api.etherscan.io/api'
 
-	def initialize(api_key, sl, print_query=false)
+	def initialize(api_key, sl, h={})
 	  @apiKeyToken = api_key
 	  @sl = sl
-	  @print_query = print_query
+	  @print_query = h.has_key?(:print_query) ? h[:print_query] : false
 	  @print_next_query = false
 	end
 	
@@ -36,9 +36,13 @@ Transaction APIs - https://etherscan.io/apis#transactions
 
 EventLogs
 
-[x] simple implementation (address + topic0 only) => get_eventlog_0
-[ ] full implementation
+[x] get_eventlog
 
+GETH/Parity Proxy
+
+[x] number of most recent block => get_eth_blockNumber
+[ ] information about a block by block number
+..
 
 Tokens - https://etherscan.io/apis#tokens
 
@@ -309,7 +313,7 @@ Stats - https://etherscan.io/apis#stats
 	#
 	###########################################################################	
 
-	def get_eventlog_0(contractaddress, topics, fromBlock=0, toBlock='latest')
+	def get_eventlog(contractaddress, topics, fromBlock=0, toBlock='latest')
 	
 		# https://api.etherscan.io/api?
 		# module=logs
@@ -342,6 +346,25 @@ Stats - https://etherscan.io/apis#stats
 	#
 	###########################################################################	
 
+	def get_eth_blockNumber
+		
+		# Returns the number of most recent block
+
+		# https://api.etherscan.io/api?
+		# module=proxy
+		# &action=eth_blockNumber
+		# &apikey=YourApiKeyToken
+	
+		h = {
+			:module => 'proxy',
+			:action => 'eth_blockNumber',
+		}	
+
+		res = submit_query(h)
+		res[:result].to_i(16)
+	
+	end
+	
 	###########################################################################
 	#
 	# Websockets
