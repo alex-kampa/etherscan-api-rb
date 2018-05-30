@@ -364,6 +364,47 @@ Stats - https://etherscan.io/apis#stats
 		res[:result].to_i(16)
 	
 	end
+  
+  def get_eth_getTransactionByHash(tx_hash)
+  
+    # Returns the information about a transaction requested by transaction hash
+    
+    # https://api.etherscan.io/api?
+    # module=proxy
+    # &action=eth_getTransactionByHash
+    # &txhash=0x1e2910a262b1008d0616a0beb24c1a491d78771baa54a33e66065e03b1f46bc1
+    # &apikey=YourApiKeyToken
+    
+    h = {
+			:module => 'proxy',
+			:action => 'eth_getTransactionByHash',
+      :txhash => tx_hash,
+		}	
+
+		res = submit_query(h)
+
+  end
+
+  def get_eth_getTransactionReceipt(tx_hash)
+  
+    # Returns the receipt of a transaction by transaction hash
+    
+    # https://api.etherscan.io/api?
+    # module=proxy
+    # &action=eth_getTransactionReceipt
+    # &txhash=0x022c1bfb9b797eb22fa50f211ee28d193b9420280396c1e48b0923591ca33d70
+    # &apikey=YourApiKeyToken
+    
+    h = {
+			:module => 'proxy',
+			:action => 'eth_getTransactionReceipt',
+      :txhash => tx_hash,
+		}	
+
+		res = submit_query(h)
+
+  end
+  
 	
 	###########################################################################
 	#
