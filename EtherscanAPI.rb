@@ -100,7 +100,7 @@ Stats - https://etherscan.io/apis#stats
 	
 	def get_balance(address)
 	
-		# Get Ether Balance for a single Address
+		# Get Ether Balance for a single address
 		#
 		# https://api.etherscan.io/api?
 		# module=account&action=balance
@@ -117,6 +117,44 @@ Stats - https://etherscan.io/apis#stats
 		res = submit_query(h)
 		res[:result].to_i/1.0e18
 	
+	end
+
+	def get_balancemulti(addresses)
+	
+		# Get Ether Balance for multiple addresses
+		#
+    # https://api.etherscan.io/api?
+    # module=account&action=balancemulti
+    # &address=0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a,0x63a9975ba31b0b9626b34300f7f627147df1f526,0x198ef1ec325a96cc354c7266a038be8b5c558f67
+    # &tag=latest
+    # &apikey=YourApiKeyToken
+
+
+		h = {
+			:module => 'account',
+			:action => 'balancemulti',
+			:address => addresses.join(",")
+		}
+		
+		res = submit_query(h)
+
+    # {
+    #   "status":"1",
+    #   "message":"OK",
+    #   "result":[
+    #     {"account":"0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a","balance":"40807168565070000000000"},
+    #     {"account":"0x63a9975ba31b0b9626b34300f7f627147df1f526","balance":"332567136222827062478"},
+    #     {"account":"0x198ef1ec325a96cc354c7266a038be8b5c558f67","balance":"185178830000000000"}
+    #    ]
+    #  }
+    
+    a = []
+    res[:result].each do |h|
+      a << h[:balance].to_i/1.0e18
+    end
+    
+    return a
+    
 	end
 
 	# =========================================================================
